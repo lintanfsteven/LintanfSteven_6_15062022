@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv').config()
 const db = process.env;
 
-const stuffRoutes = require('./routes/sauces');
+const stuffRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb+srv://spou:4F99a16e.@atlascluster.jhlnc.mongodb.net/?retryWrites=true&w=majority',
