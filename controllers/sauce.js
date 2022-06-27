@@ -54,7 +54,7 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 exports.likeSauce = (req, res, next) => {
-    sauce.findOne({ _id: req.params.id })
+    Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
             let i = 0;
             let tabLikes = []; let tabDislikes = [];
@@ -97,7 +97,7 @@ exports.likeSauce = (req, res, next) => {
                 sauce.dislikes ++; 
             }
 
-            sauce.updateOne({ _id: req.params.id }, { 
+            Sauce.updateOne({ _id: req.params.id }, { 
                     likes: sauce.likes, 
                     dislikes: sauce.dislikes, 
                     usersLiked: JSON.stringify(tabLikes), 
