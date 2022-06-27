@@ -55,32 +55,32 @@ exports.deleteSauce = (req, res, next) => {
 
 exports.likeSauce = (req, res, next) => {
     sauce.findOne({ _id: req.params.id })
-        .then(newSauce => {
+        .then(sauce => {
             let i = 0;
             let tabLikes = []; let tabDislikes = [];
             let already_liked = 0; let already_disliked = 0;
             let type_like = req.body.like;
             let user_id = req.body.userId;
-            if(newSauce.usersLiked) {
-                tabLikes = JSON.parse(newSauce.usersLiked);
+            if(sauce.usersLiked) {
+                tabLikes = JSON.parse(sauce.usersLiked);
                 while(i < tabLikes.length) {
                     if(tabLikes[i] == user_id) { 
                         if(type_like == 0 || type_like == -1) {
                             tabLikes.splice(i, 1); 
-                            newSauce.likes --;
+                            sauce.likes --;
                         }
                         already_liked = 1;
                     }
                     i ++;
                 }
             }
-            if(newSauce.usersDisliked) {
-                tabDislikes = JSON.parse(newSauce.usersDisliked); i = 0;
+            if(sauce.usersDisliked) {
+                tabDislikes = JSON.parse(sauce.usersDisliked); i = 0;
                 while(i < tabDislikes.length) {
                     if(tabDislikes[i] == user_id) { 
                         if(type_like == 0 || type_like == 1) {
                             tabDislikes.splice(i, 1); 
-                            newSauce.dislikes --;
+                            sauce.dislikes --;
                         }
                         already_disliked = 1;
                     }
@@ -90,16 +90,16 @@ exports.likeSauce = (req, res, next) => {
 
             if(type_like == 1 && already_liked == 0) {
                 tabLikes.push(user_id);
-                newSauce.likes ++; 
+                sauce.likes ++; 
             }
             if(type_like == -1 && already_disliked == 0) {
                 tabDislikes.push(user_id);
-                newSauce.dislikes ++; 
+                sauce.dislikes ++; 
             }
 
             sauce.updateOne({ _id: req.params.id }, { 
-                    likes: newSauce.likes, 
-                    dislikes: newSauce.dislikes, 
+                    likes: sauce.likes, 
+                    dislikes: sauce.dislikes, 
                     usersLiked: JSON.stringify(tabLikes), 
                     usersDisliked: JSON.stringify(tabDislikes)
                 })
