@@ -74,10 +74,7 @@ exports.likeSauce = (req, res, next) => {
     }
 
     if (req.body.like === -1) {
-        Sauce.updateOne(
-            {
-                _id: req.params.id,
-            },
+        Sauce.updateOne({ _id: req.params.id, },
             {
                 $inc: {
                     dislikes: 1,
@@ -100,14 +97,10 @@ exports.likeSauce = (req, res, next) => {
     }
 
     if (req.body.like === 0) {
-        Sauce.findOne({
-            _id: req.params.id,
-        }).then((sauce) => {
+        Sauce.findOne({ _id: req.params.id,})
+            .then((sauce) => {
             if (sauce.usersLiked.includes(req.body.userId)) {
-                Sauce.updateOne(
-                    {
-                        _id: req.params.id,
-                    },
+                Sauce.updateOne({ _id: req.params.id, },
                     {
                         $inc: {
                             likes: -1,
@@ -129,10 +122,7 @@ exports.likeSauce = (req, res, next) => {
                     );
             }
             if (sauce.usersDisliked.includes(req.body.userId)) {
-                Sauce.updateOne(
-                    {
-                        _id: req.params.id,
-                    },
+                Sauce.updateOne({ _id: req.params.id, },
                     {
                         $inc: {
                             dislikes: -1,
