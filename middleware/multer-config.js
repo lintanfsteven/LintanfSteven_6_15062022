@@ -1,12 +1,12 @@
 const multer = require('multer');
 
-
 const MIME_TYPES = {
     'images/jpg': 'jpg',
     'images/jpeg': 'jpg',
     'images/png': 'png'
 };
 
+// using multer to set up entrying folders and their name
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images')

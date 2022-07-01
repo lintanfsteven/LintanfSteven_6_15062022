@@ -18,6 +18,7 @@ mongoose.connect('mongodb+srv://spou:4F99a16e.@atlascluster.jhlnc.mongodb.net/?r
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée'));
 
+// set up middleware to allow app to communicate between servers, get/post...
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');

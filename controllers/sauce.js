@@ -1,18 +1,21 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
+// to get all sauces displayed in menu
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(400).json({ error }));
 };
 
+// to show a sauce features
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error }));
 };
 
+// to create a sauce 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id
@@ -29,6 +32,7 @@ exports.createSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+// to modify a sauce features
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ?
         { 
@@ -40,6 +44,7 @@ exports.modifySauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+// to delete a sauce (only its creator can)
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
@@ -53,8 +58,10 @@ exports.deleteSauce = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+// to (dis)like a sauce 
 exports.likeSauce = (req, res, next) => {
     if (req.body.like === 1) {
+        // if someone likes it
         Sauce.updateOne({ _id: req.params.id },
             {
                 $inc: {
@@ -73,6 +80,7 @@ exports.likeSauce = (req, res, next) => {
                 res.status(400).json({ error, }));
     }
 
+    // if someone dislikes it
     if (req.body.like === -1) {
         Sauce.updateOne({ _id: req.params.id, },
             {
@@ -96,6 +104,7 @@ exports.likeSauce = (req, res, next) => {
             );
     }
 
+    // if you remove your like
     if (req.body.like === 0) {
         Sauce.findOne({ _id: req.params.id,})
             .then((sauce) => {
@@ -121,6 +130,8 @@ exports.likeSauce = (req, res, next) => {
                         })
                     );
             }
+
+            // if you remove your dislike
             if (sauce.usersDisliked.includes(req.body.userId)) {
                 Sauce.updateOne({ _id: req.params.id, },
                     {

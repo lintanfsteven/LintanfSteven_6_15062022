@@ -1,6 +1,7 @@
 const { json } = require('express');
 const jsonwebtoken = require('jsonwebtoken');
 
+// middleware that allows to check userId for security (w/ jwt)
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
